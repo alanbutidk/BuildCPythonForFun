@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-    build-interpreter:
+  build-interpreter:
     name: Interpreter JIT
     runs-on: windows-latest
 
