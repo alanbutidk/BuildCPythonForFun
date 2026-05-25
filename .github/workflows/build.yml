@@ -1,0 +1,33 @@
+name: Build CPython 3.14
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # manual trigger button
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout CPython
+      uses: actions/checkout@v4
+      with:
+        repository: python/cpython
+        ref: 3.14
+        path: cpython
+
+    - name: Build CPython
+      working-directory: cpython/PCbuild
+      run: |
+        ./build.bat -e -p x64 --no-tkinter
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: python314-windows-x64
+        path: |
+          cpython/PCbuild/amd64/*.exe
+          cpython/PCbuild/amd64/*.dll
+          cpython/PCbuild/amd64/*.pyd
+        retention-days: 30
