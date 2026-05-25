@@ -27,7 +27,7 @@ jobs:
     - name: Build CPython Full JIT
       working-directory: cpython/PCbuild
       run: |
-        ./build.bat -e -p x64 --no-tkinter -j $env:NUMBER_OF_PROCESSORS
+        ./build.bat -e -p x64 --no-tkinter -- /m:$env:NUMBER_OF_PROCESSORS
       env:
         PYTHON_BUILDDIR: ../build_jit
         EnableExperimentalJIT: 1
