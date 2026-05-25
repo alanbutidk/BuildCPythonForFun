@@ -40,4 +40,5 @@ jobs:
           cpython/PCbuild/amd64/*.exe
           cpython/PCbuild/amd64/*.dll
           cpython/PCbuild/amd64/*.pyd
+	  cpython/Lib/**
         retention-days: 30
