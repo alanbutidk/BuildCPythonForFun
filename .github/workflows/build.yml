@@ -6,43 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-jit:
-    name: Full JIT
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout CPython
-      uses: actions/checkout@v4
-      with:
-        repository: python/cpython
-        ref: main
-        path: cpython
-
-    - name: Cache externals
-      uses: actions/cache@v4
-      with:
-        path: cpython/externals
-        key: cpython-externals-jit-${{ hashFiles('cpython/PCbuild/get_externals.bat') }}
-
-    - name: Build CPython Full JIT
-      working-directory: cpython/PCbuild
-      run: |
-        ./build.bat -e -p x64 --no-tkinter /m:$env:NUMBER_OF_PROCESSORS
-      env:
-        PYTHON_BUILDDIR: ../build_jit
-        EnableExperimentalJIT: 1
-
-    - name: Upload Full JIT artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: python314-jit-windows-x64
-        path: |
-          cpython/PCbuild/amd64/*.exe
-          cpython/PCbuild/amd64/*.dll
-          cpython/PCbuild/amd64/*.pyd
-        retention-days: 30
-
-  build-interpreter:
+    build-interpreter:
     name: Interpreter JIT
     runs-on: windows-latest
 
@@ -63,7 +27,7 @@ jobs:
     - name: Build CPython Interpreter JIT
       working-directory: cpython/PCbuild
       run: |
-        ./build.bat -e -p x64 --no-tkinter -j $env:NUMBER_OF_PROCESSORS
+        ./build.bat -e -p x64 --no-tkinter /m:$env:NUMBER_OF_PROCESSORS
       env:
         PYTHON_BUILDDIR: ../build_interpreter
         EnableExperimentalJIT: interpreter
